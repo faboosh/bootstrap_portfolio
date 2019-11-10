@@ -1,9 +1,9 @@
-let w, h, canvas, ctx;
+let w, h, canvas, ctx, maxScroll;
 let imgs = [];
 let lastY = 0;
-let maxScroll = document.body.clientHeight - window.innerHeight;
 
 document.querySelector('root-element').addEventListener('renderdone', () => {
+    maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
     console.log('render recieved');
     
     if(window.innerWidth > window.innerHeight) {
@@ -31,9 +31,9 @@ document.querySelector('root-element').addEventListener('renderdone', () => {
 });
 
 
-for (let i = 1; i <= 120; i++) {
+for (let i = 1; i <= 121; i++) {
     let img = new Image();
-    img.src = `img/bg/img(${i}).jpg`; 
+    img.src = `img/bg/png/img(${i}).png`; 
     imgs.push(img);
 }
 
@@ -41,9 +41,11 @@ function drawFrame() {
     lastY = window.scrollY;
     let pos = window.scrollY / maxScroll; 
     pos = Math.round(pos * 100) / 100;
-    let frame = Math.round(119 * pos);
-    ctx.clearRect(0, 0, w, h);
-    ctx.drawImage(imgs[frame], 0, 0, w, h);
+    let frame = Math.round(120 * pos);
+    if(pos <= 1) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(imgs[frame], 0, 0, w, h);
+    } 
 }
 
 function updateRes() {
@@ -51,6 +53,6 @@ function updateRes() {
     h = window.innerHeight;
     canvas.width = w;
     canvas.height = h;
-    maxScroll = document.body.clientHeight - window.innerHeight;
+    maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
     console.log('changed res');
 }

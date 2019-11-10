@@ -55,24 +55,25 @@ $colors: (
   background: lighten($dark, 10);
 }
 
-/*html {
+html {
   overflow: scroll;
   overflow-x: hidden;
 }
+
 ::-webkit-scrollbar {
   width: 0px;  
   background: transparent;  
-}*/
+}
 
 #background {
-  top: 50%;
-  left: 50%;
+  top: 50vh;
+  left: 50vw;
   transform: translate(-50%, -50%);
   position: fixed;
   width: 100vh;
   //width: calc(100vh / 9 * 16);
   height: 100vh;
-  z-index: 2;
+  z-index: -2;
   background: none;
   margin: 0;
 }
@@ -89,6 +90,24 @@ $colors: (
 }
 
 body {
-  height: 8000px;
   overflow-x: hidden;
+}
+
+intro-video {
+  display: flex;
+  z-index: 3;
+  width: 100vw;
+  height: 7500px;
+}
+
+about-me, contact-info {
+  margin: 0;
+  display: block;
+}
+
+fade-out{
+  display: block;
+  width: 100vw;
+  height: 150vh;
+  background: linear-gradient(0deg, $dark, transparent 50%, transparent 50% 100%);
 }
