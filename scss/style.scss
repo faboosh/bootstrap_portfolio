@@ -1,0 +1,94 @@
+/*#D12B5F
+#62B1D8
+#1E2032
+#D1B2C9
+#374D7B*/
+$a: #D12B5F;
+$b: #62B1D8;
+$c: #1E2032;          
+$d: #D1B2C9;
+$e: #374D7B;
+
+$primary: #62B1D8;
+$secondary: darken(#374D7B, 20);
+$enable-rounded: true;
+$bg-dark: #374D7B;
+$dark: #1E2032;
+$body-bg: darken(#1E2032, 4);
+$body-color: rgb(240, 240, 247);
+$red: rgb(243, 71, 125);
+$yellow: rgb(235, 211, 76);
+$green: rgb(43, 209, 107);
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "danger": $red,
+  "warning": $yellow,
+  "success": $green
+
+);
+
+$colors: (
+  "dark": $dark,
+  "red": $red,
+  "yellow": $yellow,
+  "green": $green
+);
+
+@import url('https://fonts.googleapis.com/css?family=Saira&display=swap');
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+* {
+  font-family: 'Saira', sans-serif;
+}
+
+.container {
+  max-width: 600px;
+}
+
+.btn-danger {
+  background: $a;
+}
+
+.dropdown-item:hover {
+  background: lighten($dark, 10);
+}
+
+/*html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0px;  
+  background: transparent;  
+}*/
+
+#background {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  width: 100vh;
+  //width: calc(100vh / 9 * 16);
+  height: 100vh;
+  z-index: 2;
+  background: none;
+  margin: 0;
+}
+
+.navbar {
+  top: 0;
+  position: fixed;
+  width: 100vw;
+}
+
+#intro {
+  display: inline-flex;
+  font-size: 10em;
+}
+
+body {
+  height: 8000px;
+  overflow-x: hidden;
+}
