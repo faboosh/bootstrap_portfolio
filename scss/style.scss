@@ -55,7 +55,7 @@ $colors: (
   background: lighten($dark, 10);
 }
 
-html {
+/*html {
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -63,7 +63,7 @@ html {
 ::-webkit-scrollbar {
   width: 0px;  
   background: transparent;  
-}
+}*/
 
 #background {
   top: 50vh;
@@ -97,7 +97,7 @@ intro-video {
   display: flex;
   z-index: 3;
   width: 100vw;
-  height: 7500px;
+  height: 3000px;
 }
 
 about-me, contact-info {
