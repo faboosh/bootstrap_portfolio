@@ -26,7 +26,6 @@ $theme-colors: (
   "danger": $red,
   "warning": $yellow,
   "success": $green
-
 );
 
 $colors: (
@@ -55,15 +54,16 @@ $colors: (
   background: lighten($dark, 10);
 }
 
-/*html {
+html {
   overflow: scroll;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
   width: 0px;  
   background: transparent;  
-}*/
+}
 
 #background {
   top: 50vh;
@@ -82,6 +82,7 @@ $colors: (
   top: 0;
   position: fixed;
   width: 100vw;
+  z-index: 2000;
 }
 
 #intro {
@@ -100,9 +101,14 @@ intro-video {
   height: 3000px;
 }
 
-about-me, contact-info {
-  margin: 0;
-  display: block;
+about-me, my-portfolio {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#about {
+  max-width: 450px;
 }
 
 fade-out{
@@ -111,3 +117,11 @@ fade-out{
   height: 150vh;
   background: linear-gradient(0deg, $dark, transparent 50%, transparent 50% 100%);
 }
+
+
+//Slå på dessa för att verifiera '1.4.12 Text Spacing'
+/** {
+  line-height: 1.5rem;
+  letter-spacing: 0.12rem;
+  word-spacing: 0.16rem;
+}*/

@@ -9666,10 +9666,6 @@ h3 {
   font-family: "Saira", sans-serif;
 }
 
-.container {
-  max-width: 600px;
-}
-
 .btn-danger {
   background: #D12B5F;
 }
@@ -9681,6 +9677,7 @@ h3 {
 html {
   overflow: scroll;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
@@ -9704,6 +9701,7 @@ html {
   top: 0;
   position: fixed;
   width: 100vw;
+  z-index: 2000;
 }
 
 #intro {
@@ -9719,12 +9717,17 @@ intro-video {
   display: flex;
   z-index: 3;
   width: 100vw;
-  height: 7500px;
+  height: 3000px;
 }
 
-about-me, contact-info {
-  margin: 0;
-  display: block;
+about-me, my-portfolio {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#about {
+  max-width: 450px;
 }
 
 fade-out {
@@ -9733,5 +9736,11 @@ fade-out {
   height: 150vh;
   background: linear-gradient(0deg, #1E2032, transparent 50%, transparent 50% 100%);
 }
+
+/** {
+  line-height: 1.5rem;
+  letter-spacing: 0.12rem;
+  word-spacing: 0.16rem;
+}*/
 
 /*# sourceMappingURL=style.css.map */

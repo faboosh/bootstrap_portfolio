@@ -8,7 +8,8 @@ let currFrame = 0;
 let scrollInterval = 200;
 let scrollDown;
 let lastDraw = performance.now();
-
+let hasRendered = false;
+let currPage;
 
 //Bildrutorna där animationen ska stanna
 let keyframes = [
@@ -20,55 +21,69 @@ let keyframes = [
 //
 let currKeyframe = 0;
 
+$('root-element').on('nav', e => {
+    console.log(e.detail.page);
+    currPage = e.detail.page;
+})
+
 //Kör efter 
-document.querySelector('root-element').addEventListener('renderdone', () => {
-    maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
-
-    if (window.innerWidth > window.innerHeight) {
-        $('#background').css('width', '100vw');
-        $('#background').css('height', '100vw');
-    }
-
-    canvas = document.getElementById('background');
-    ctx = canvas.getContext('2d');
-    ctx.imageSmoothingEnabled = false;
-    updateRes();
-    drawFrame();
-
-    window.addEventListener('resize', () => {
+document.querySelector('root-element').addEventListener('renderdone', e => {
+    if (currPage == 'home') {
+        maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
+        if (window.innerWidth > window.innerHeight) {
+            $('#background').css('width', '100vw');
+            $('#background').css('height', '100vw');
+        }
+    
+        canvas = document.getElementById('background');
+        ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
         updateRes();
         drawFrame();
-    })
+    
+    }
 
-    window.addEventListener('scroll', () => {
-        //Kör om tiden sedan senaste scroll är länge än minimumtiden
-        let delta = performance.now() - lastDraw;
-        if (delta > scrollInterval) {
+    if (!hasRendered) {
 
-            //Kör om användaren scrollat nedåt, uppdaterar targetFrame med nästa keyframe och startat animationen
-            if (lastY < window.scrollY) {
-                if (targetFrame < 120) {
-                    currKeyframe++;
-                    targetFrame = keyframes[currKeyframe];
+        window.addEventListener('resize', () => {
+            updateRes();
+            drawFrame();
+        })
+
+        hasRendered = true;
+
+        window.addEventListener('scroll', () => {
+            if (currPage == 'home') {
+                //Kör om tiden sedan senaste scroll är länge än minimumtiden
+                let delta = performance.now() - lastDraw;
+                if (delta > scrollInterval) {
+
+                    //Kör om användaren scrollat nedåt, uppdaterar targetFrame med nästa keyframe och startat animationen
+                    if (lastY < window.scrollY) {
+                        if (targetFrame < 120) {
+                            currKeyframe++;
+                            targetFrame = keyframes[currKeyframe];
+                        }
+
+                        scrollDown = true;
+                        render();
+                    }
+
+                    //Kör om användaren scrollat uppåt, uppdaterar targetFrame med föregående keyframe och startat animationen
+                    if (lastY > window.scrollY) {
+                        if (targetFrame > 0) {
+                            currKeyframe--;
+                            targetFrame = keyframes[currKeyframe];
+                        }
+
+                        scrollDown = false;
+                        render();
+                    }
+
                 }
-
-                scrollDown = true;
-                render();
             }
-
-            //Kör om användaren scrollat uppåt, uppdaterar targetFrame med föregående keyframe och startat animationen
-            if (lastY > window.scrollY) {
-                if (targetFrame > 0) {
-                    currKeyframe--;
-                    targetFrame = keyframes[currKeyframe];
-                }
-
-                scrollDown = false;
-                render();
-            }
-
-        }
-    })
+        })
+    }
 });
 
 function render() {
@@ -145,4 +160,6 @@ function updateRes() {
     canvas.height = h;
     maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
     console.log('changed res');
+    document.querySelector('#' + currPage).scrollIntoView();
+    console.log(currPage);
 }
