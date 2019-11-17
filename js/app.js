@@ -39,6 +39,8 @@ export class App {
             ]
         }
 
+        this.selectedLang = this.lang.se;
+
         this.projects = [
             {
                 title: 'RETROQUIZ',
@@ -83,6 +85,23 @@ export class App {
         })
 
         this.lastScrollTrack = 0;
+
+        //this.setup();
+    }
+
+    setup() {
+        $('document').ready(() => {
+            $('#swe').click(() => {
+                console.log('swe');
+                localStorage.setItem('lang', 'sv');
+            })
+
+            $('#eng').click(() => {
+                localStorage.setItem('lang', 'en');
+            })
+        })
+
+        this.checkLang();
     }
 
     setupScrollTracker() {
@@ -150,7 +169,7 @@ export class App {
                         setProject(e.to);
                     })
 
-                    $('#portfolio-carousel').carousel('pause');  
+                    $('#portfolio-carousel').carousel('pause');
                 })
             } else {
                 this.translate();
@@ -158,8 +177,9 @@ export class App {
         });
     }
 
+    //Översätter alla element i sidan, visar sidinehållet och 
     translate() {
-        this.lang.se.forEach(line => {
+        this.selectedLang.forEach(line => {
             document.querySelector('root-element').innerHTML = document.querySelector('root-element').innerHTML.replace(line.var, line.text);
         })
 
@@ -168,10 +188,12 @@ export class App {
         this.signalDone();
     }
 
+    //Signalerar till bakgrundsrenderaren att all HTML har hämtats
     signalDone() {
         document.querySelector('root-element').dispatchEvent(new CustomEvent('renderdone', {}));
     }
 
+    //Uppdaterar nuvarande sidan och skickar ut ett event med den uppdaterade informationen
     updateCurrentPage(currentPage) {
         this.currentPage = currentPage;
         console.log(this.currentPage);
@@ -185,6 +207,7 @@ export class App {
         document.querySelector('root-element').dispatchEvent(nav);
     }
 
+    //Lägger till alla sidor som routes i navbaren
     addRoutes(routes) {
         this.updateCurrentPage({
             name: 'home',
@@ -217,7 +240,24 @@ export class App {
         }
     }
 
+    //Scrollar till aktivt element
     scrollToCurrent() {
         this.currentPage.elem.scrollIntoView();
+    }
+
+    changeLang() {
+        let redraw = new CustomEvent('redraw');
+        document.dispatchEvent(redraw);
+        this.checkLang();
+
+        this.translate();
+    }
+
+    checkLang() {
+        if (localStorage.getItem('lang') == 'sv') {
+            this.selectedLang = this.lang.sv;
+        } else {
+            this.selectedLang = this.lang.en;
+        }
     }
 }

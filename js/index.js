@@ -2,33 +2,33 @@ import { App } from '../js/app.js';
 import { BGRenderer } from '../js/bgrenderer.js';
 
 let fx = new BGRenderer();
+let application;
 
-let app = new App();
 
-app.addRoutes([['home', 'intro-video'], ['portfolio', 'my-portfolio'], ['about', 'about-me']]);
 
 $('document').ready(() => {
-    app.updateCurrentPage({
+    application = new App();
+
+    application.addRoutes([['home', 'intro-video'], ['portfolio', 'my-portfolio'], ['about', 'about-me']]);
+    application.updateCurrentPage({
         name: 'home',
         elem: document.querySelector('intro-video')
     });
-    app.render("home");
+    application.render("home");
 });
 
 $('#logo').click(() => {
-    app.updateCurrentPage({
+    application.updateCurrentPage({
         name: 'home',
         elem: document.querySelector('intro-video')
     });
-    app.hideHamburger();
-    app.render("home");
+    application.hideHamburger();
+    application.render("home");
 });
 
 window.addEventListener('resize', () => {
-    app.scrollToCurrent();
+    application.scrollToCurrent();
 })
-
-
 
 $('#portfolio-carousel').click(() => {
     $('#portfolio-carousel').carousel('pause');  
