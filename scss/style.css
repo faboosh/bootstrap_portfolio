@@ -1,9 +1,4 @@
 @charset "UTF-8";
-/*#D12B5F
-#62B1D8
-#1E2032
-#D1B2C9
-#374D7B*/
 @import url("https://fonts.googleapis.com/css?family=Saira&display=swap");
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -9666,23 +9661,14 @@ h3 {
   font-family: "Saira", sans-serif;
 }
 
-.btn-danger {
-  background: #D12B5F;
-}
-
 .dropdown-item:hover {
-  background: #313452;
+  background: #e6e6e6;
 }
 
 html {
   overflow: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
 }
 
 #background {
@@ -9704,11 +9690,6 @@ html {
   z-index: 2000;
 }
 
-#intro {
-  display: inline-flex;
-  font-size: 10em;
-}
-
 body {
   overflow-x: hidden;
 }
@@ -9717,10 +9698,11 @@ intro-video {
   display: flex;
   z-index: 3;
   width: 100vw;
-  height: 3000px;
+  height: 1000px;
 }
 
 about-me, my-portfolio {
+  z-index: 2000;
   display: flex;
   align-items: center;
   min-height: 100vh;
@@ -9731,12 +9713,44 @@ about-me, my-portfolio {
 }
 
 fade-out {
+  z-index: 2000;
   display: block;
   width: 100vw;
   height: 150vh;
   background: linear-gradient(0deg, #1E2032, transparent 50%, transparent 50% 100%);
 }
 
+scroll-prompt, skip-intro {
+  z-index: 1500;
+  position: fixed;
+  bottom: 60px;
+  width: 200px;
+  text-align: center;
+}
+
+scroll-prompt {
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+skip-intro {
+  right: 100px;
+}
+
+text-intro {
+  display: flex;
+  align-items: center;
+  background: #1E2032;
+  height: 100vh;
+}
+
+@media only screen and (max-width: 980px) {
+  skip-intro {
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 15px;
+  }
+}
 /** {
   line-height: 1.5rem;
   letter-spacing: 0.12rem;

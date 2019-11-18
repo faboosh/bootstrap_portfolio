@@ -1,35 +1,35 @@
-import { App } from '../js/app.js';
+import {App} from '../js/app.js';
 import { BGRenderer } from '../js/bgrenderer.js';
 
 let fx = new BGRenderer();
-let application;
+let app = new App();
 
-
-
+//Initierar routern och laddar home-sidan
 $('document').ready(() => {
-    application = new App();
+    app.addRoutes([['home', 'intro-video'], ['portfolio', 'my-portfolio'], ['about', 'about-me']]);
 
-    application.addRoutes([['home', 'intro-video'], ['portfolio', 'my-portfolio'], ['about', 'about-me']]);
-    application.updateCurrentPage({
+    app.updateCurrentPage({
         name: 'home',
-        elem: document.querySelector('intro-video')
+        elem: 'intro-video'
     });
-    application.render("home");
+
+    app.render("home");
 });
 
+//Skickar användaren tillbaka till hem när hen trycker på lggan
 $('#logo').click(() => {
-    application.updateCurrentPage({
+    app.updateCurrentPage({
         name: 'home',
-        elem: document.querySelector('intro-video')
+        elem: 'intro-video'
     });
-    application.hideHamburger();
-    application.render("home");
+
+    app.hideHamburger();
+
+    app.render("home");
 });
 
+//Scrollar till nuvarande aktivt element när skärmen byter storlek
 window.addEventListener('resize', () => {
-    application.scrollToCurrent();
+    app.scrollToCurrent();
 })
 
-$('#portfolio-carousel').click(() => {
-    $('#portfolio-carousel').carousel('pause');  
-})

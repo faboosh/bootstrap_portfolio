@@ -1,8 +1,27 @@
+<!--introanimation + UI-->
 <intro-video id="intro-video">
     <canvas id="background"></canvas>
+
+    <scroll-prompt>
+        <p>$scroll-prompt</p>
+    </scroll-prompt>
+
+    <skip-intro>
+        <button type="button" href="#" class="btn btn-outline-danger btn-sm" id="skip-intro"><i
+                class="fas fa-arrow-down"></i></i> $skip-intro</button>
+    </skip-intro>
 </intro-video>
 
+<!--Gradient som fadear in i övrigt innehåll-->
 <fade-out></fade-out>
+
+<!--Textversionen av introt-->
+<text-intro>
+    <div class="container">
+        <h1 id="intro-headline">$introduction</h1>
+        <p id="intro-description">$intro-description</p>
+    </div>
+</text-intro>
 
 <my-portfolio class="bg-dark" id="my-portfolio"></my-portfolio>
 

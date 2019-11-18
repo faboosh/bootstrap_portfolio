@@ -1,14 +1,4 @@
-/*#D12B5F
-#62B1D8
-#1E2032
-#D1B2C9
-#374D7B*/
-$a: #D12B5F;
-$b: #62B1D8;
-$c: #1E2032;          
-$d: #D1B2C9;
-$e: #374D7B;
-
+//Bootstrap-tema
 $primary: #62B1D8;
 $secondary: darken(#374D7B, 20);
 $enable-rounded: true;
@@ -38,46 +28,36 @@ $colors: (
 @import url('https://fonts.googleapis.com/css?family=Saira&display=swap');
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+//Global font
 * {
   font-family: 'Saira', sans-serif;
 }
 
-.container {
-  //max-width: 600px;
-}
-
-.btn-danger {
-  background: $a;
-}
-
 .dropdown-item:hover {
-  background: lighten($dark, 10);
+  background: darken(white, 10);
 }
 
+//Mjuk scroll
 html {
   overflow: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
-::-webkit-scrollbar {
-  width: 0px;  
-  background: transparent;  
-}
-
+//Style för bakgrunds-canvasen
 #background {
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
   position: fixed;
   width: 100vh;
-  //width: calc(100vh / 9 * 16);
   height: 100vh;
   z-index: -2;
   background: none;
   margin: 0;
 }
 
+//Fulhack för fast navbar
 .navbar {
   top: 0;
   position: fixed;
@@ -85,23 +65,20 @@ html {
   z-index: 2000;
 }
 
-#intro {
-  display: inline-flex;
-  font-size: 10em;
-}
-
 body {
   overflow-x: hidden;
 }
 
+//Komponent-styles
 intro-video {
   display: flex;
   z-index: 3;
   width: 100vw;
-  height: 3000px;
+  height: 1000px;
 }
 
 about-me, my-portfolio {
+  z-index: 2000;
   display: flex;
   align-items: center;
   min-height: 100vh;
@@ -112,12 +89,45 @@ about-me, my-portfolio {
 }
 
 fade-out{
+  z-index: 2000;
   display: block;
   width: 100vw;
   height: 150vh;
   background: linear-gradient(0deg, $dark, transparent 50%, transparent 50% 100%);
 }
 
+scroll-prompt, skip-intro {
+  z-index: 1500;
+  position: fixed;
+  bottom: 60px;
+  width: 200px;
+  text-align: center;
+}
+scroll-prompt {
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+skip-intro {
+  right: 100px;
+}
+
+text-intro {
+  display: flex;
+  align-items: center;
+  background: $dark;
+  height: 100vh;
+}
+
+
+//Flyttar runt skip-introknappen på mobiltelefoner
+@media only screen and (max-width: 980px) {
+  skip-intro {
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 15px;
+  }
+}
 
 //Slå på dessa för att verifiera '1.4.12 Text Spacing'
 /** {

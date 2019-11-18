@@ -3,6 +3,8 @@ export class BGRenderer {
         this.w, this.h, this.canvas, this.ctx, this.maxScroll;
         this.targetFrame = 0;
         this.imgs = [];
+        this.imgs_se = [];
+        this.imgs_en = [];
         this.lastY = 0;
         this.currFrame = 0;
         this.scrollInterval = 200;
@@ -15,7 +17,7 @@ export class BGRenderer {
         this.keyframes = [
             0,
             60,
-            120
+            119
         ];
 
         //Nuvarande bildruta i anmationen
@@ -28,6 +30,14 @@ export class BGRenderer {
         })
 
         this.init();
+
+        //Uppdaterar canvasens storlek och animationens croppinginställningar
+        //när skärmstorleken ändras och ritar om canvasen med nya inställningarna
+        window.addEventListener('resize', () => {
+            this.updateOrientation();
+            this.updateRes();
+            this.drawFrame();
+        })
     }
 
     //Uppdaterar animationens croppinginställningar
@@ -36,9 +46,9 @@ export class BGRenderer {
         if (window.innerWidth > window.innerHeight) {
             $('#background').css('width', '100vw');
             $('#background').css('height', '100vw');
-        } else  {
+        } else {
             $('#background').css('width', '100vh');
-            $('#background').css('height', '100vh');            
+            $('#background').css('height', '100vh');
         }
     }
 
@@ -51,6 +61,35 @@ export class BGRenderer {
 
         //Kör efter sidan renderats klart
         document.querySelector('root-element').addEventListener('renderdone', () => {
+            $('root-element').on('lang', e => {
+                if(e.detail.lang == 'sv') {
+                    this.imgs = this.imgs_se;
+                } else {
+                    this.imgs = this.imgs_en;
+                }
+                this.drawFrame();
+            });
+
+            $('text-intro').hide();
+
+            //Skippar introanimationen och visar en textversion
+            $('skip-intro').click(() => {
+                console.log('clicked');
+                $('skip-intro').fadeOut();
+                $('text-intro').show();
+                $('#intro-headline').hide();
+                $('#intro-description').hide(); 
+                setTimeout(() => {
+                    $('#intro-headline').fadeIn(); 
+                }, 1000)
+                setTimeout(() => {
+                    $('#intro-description').fadeIn(); 
+                }, 1500)
+                
+                document.querySelector('text-intro').scrollIntoView();
+                 
+            })
+
             if (this.currPage.name == 'home') {
                 this.maxScroll = document.querySelector('intro-video').clientHeight - window.innerHeight;
 
@@ -67,17 +106,18 @@ export class BGRenderer {
             //Kör förstagångssetupen för bakgrundsrenderaren
             if (!this.hasRendered) {
 
-                //Uppdaterar canvasens storlek och animationens croppinginställningar
-                //när skärmstorleken ändras och ritar om canvasen med nya inställningarna
-                window.addEventListener('resize', () => {
-                    this.updateOrientation();
-                    this.updateRes();
-                    this.drawFrame();
-                })
-
                 this.hasRendered = true;
 
                 window.addEventListener('scroll', () => {
+                    $('scroll-prompt').fadeOut();
+                    if(window.scrollY == 0) {
+                        this.targetFrame = this.keyframes[0];
+                        this.scrollDown = false;
+                        this.currKeyframe = 0;
+                        this.drawFrame();
+                        $('scroll-prompt').fadeIn();
+                        $('skip-intro').fadeIn();
+                    }
                     //Kollar om vi är på home-sidan (där animaitonen ritas upp)
                     if (this.currPage.name == 'home') {
                         //Kör om tiden sedan senaste scroll är länge än minimumtiden
@@ -86,12 +126,20 @@ export class BGRenderer {
 
                             //Kör om användaren scrollat nedåt, uppdaterar targetFrame med nästa keyframe och startat animationen
                             if (this.lastY < window.scrollY) {
-                                if (this.targetFrame < 120) {
-                                    this.currKeyframe++;
+                                if (this.targetFrame < 119) {
+
+                                    if (this.currKeyframe < this.keyframes.length - 1) {
+
+                                        this.currKeyframe++;
+
+                                    }
+
                                     this.targetFrame = this.keyframes[this.currKeyframe];
+
                                 }
 
                                 this.scrollDown = true;
+
                                 this.render();
                             }
 
@@ -125,29 +173,36 @@ export class BGRenderer {
             }
 
             this.drawFrame();
-            
+
             window.requestAnimationFrame(() => {
                 this.render();
             });
+            console.log(this.targetFrame, this.currFrame, this.currKeyframe);
         }
     }
 
     //Laddar och lagrar alla bildrutor till animationen
-    loadImg() {   
+    loadImg() {
         for (let i = 1; i <= 120; i++) {
             let img = new Image();
-            img.src = `img/bg/webp/img(${i}).webp`;
-            this.imgs.push(img);
+            img.src = `img/bg/webp/se/img(${i}).webp`;
+            this.imgs_se.push(img);
         }
-    }
 
-    //
-    /*getFrame(scroll) {
-        let pos = scroll / this.maxScroll;
-        pos = Math.round(pos * 120) / 100;
-        let frame = Math.round(90 * pos);
-        return frame;
-    }*/
+        for (let i = 1; i <= 120; i++) {
+            let img = new Image();
+            img.src = `img/bg/webp/en/img(${i}).webp`;
+            this.imgs_en.push(img);
+        }
+
+        if (localStorage.getItem('lang') == 'sv') {
+            this.imgs = this.imgs_se;
+        } else {
+            this.imgs = this.imgs_en;
+        }
+
+        
+    }
 
     //Ritar upp nuvarande bildruta och uppdaterar senaste scrollpositionen
     drawFrame() {
